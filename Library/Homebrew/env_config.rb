@@ -179,7 +179,7 @@ module Homebrew
                       "\n\n    *Note:* `brew edit` will open all of Homebrew as discontinuous files " \
                       "and directories. Visual Studio Code can handle this correctly in project mode, but many " \
                       "editors will do strange things in this case.",
-        default_text: "`$EDITOR` or `$VISUAL`.",
+        default_text: "`$EDITOR`.",
       },
       HOMEBREW_EVAL_ALL:                         {
         description: "If set, `brew` commands evaluate all formulae and casks, executing their arbitrary code, by " \
@@ -380,6 +380,14 @@ module Homebrew
         description: "If set, always use the latest stable tag (even if developer commands " \
                      "have been run).",
         boolean:     true,
+      },
+      HOMEBREW_VISUAL:                           {
+        description:  "Use this editor when editing a single formula, or several formulae in the " \
+                      "same directory." \
+                      "\n\n    *Note:* `brew edit` will open all of Homebrew as discontinuous files " \
+                      "and directories. Visual Studio Code can handle this correctly in project mode, but many " \
+                      "editors will do strange things in this case.",
+        default_text: "`$VISUAL`.",
       },
       HOMEBREW_VERBOSE:                          {
         description: "If set, always assume `--verbose` when running commands.",

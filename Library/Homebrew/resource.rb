@@ -118,14 +118,14 @@ class Resource
   # dir using {Mktemp} so that works with all subtypes.
   #
   # @api public
-  def stage(target = nil, debug_symbols: false, &block)
+  def stage(target = nil, debug_symbols: false, keep: nil, &block)
     raise ArgumentError, "Target directory or block is required" if !target && block.blank?
 
     prepare_patches
     fetch_patches(skip_downloaded: true)
     fetch unless downloaded?
 
-    unpack(target, debug_symbols: debug_symbols, &block)
+    unpack(target, debug_symbols: debug_symbols, keep: keep, &block)
   end
 
   def prepare_patches
@@ -149,7 +149,7 @@ class Resource
   # If block is given, yield to that block with `|stage|`, where stage
   # is a {ResourceStageContext}.
   # A target or a block must be given, but not both.
-  def unpack(target = nil, debug_symbols: false)
+  def unpack(target = nil, debug_symbols: false, keep: nil)
     current_working_directory = Pathname.pwd
     stage_resource(download_name, debug_symbols: debug_symbols) do |staging|
       downloader.stage do
@@ -160,7 +160,7 @@ class Resource
         elsif target
           target = Pathname(target)
           target = current_working_directory/target if target.relative?
-          target.install Pathname.pwd.children
+          target.install Pathname.pwd.children, keep: keep
         end
       end
     end
@@ -308,8 +308,8 @@ class Resource
 
   # A resource containing a Go package.
   class Go < Resource
-    def stage(target, &block)
-      super(target/name, &block)
+    def stage(target, **kwargs, &block)
+      super(target/name, **kwargs, &block)
     end
   end
 

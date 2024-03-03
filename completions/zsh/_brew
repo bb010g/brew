@@ -162,7 +162,7 @@ __brew_internal_commands() {
     'dispatch-build-bottle:Build bottles for these formulae with GitHub Actions'
     'docs:Open Homebrew'\''s online documentation (https://docs'
     'doctor:Check your system for potential problems'
-    'edit:Open a formula or cask in the editor set by `EDITOR` or `HOMEBREW_EDITOR`, or open the Homebrew repository for editing if no formula is provided'
+    'edit:Open a formula or cask in the editor set by `HOMEBREW_VISUAL`, `VISUAL`, `HOMEBREW_EDITOR`, or `EDITOR`, or open the Homebrew repository for editing if no formula is provided'
     'extract:Look through repository history to find the most recent version of formula and create a copy in tap'
     'fetch:Download a bottle (if available) or source packages for formulae and binaries for casks'
     'formula:Display the path where formula is located'

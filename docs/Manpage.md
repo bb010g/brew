@@ -1214,8 +1214,9 @@ Build bottles for these formulae with GitHub Actions.
 
 ### `edit` [*`options`*] [*`formula`*|*`cask`* ...]
 
-Open a *`formula`* or *`cask`* in the editor set by `EDITOR` or `HOMEBREW_EDITOR`,
-or open the Homebrew repository for editing if no formula is provided.
+Open a *`formula`* or *`cask`* in the editor set by `HOMEBREW_VISUAL`, `VISUAL`,
+`HOMEBREW_EDITOR`, or `EDITOR`, or open the Homebrew repository for editing if
+no formula is provided.
 
 * `--formula`:
   Treat all named arguments as formulae.
@@ -2149,7 +2150,7 @@ example, run `export HOMEBREW_NO_INSECURE_REDIRECT=1` rather than just
 
     *Note:* `brew edit` will open all of Homebrew as discontinuous files and directories. Visual Studio Code can handle this correctly in project mode, but many editors will do strange things in this case.
 
-  *Default:* `$EDITOR` or `$VISUAL`.
+  *Default:* `$EDITOR`.
 
 - `HOMEBREW_EVAL_ALL`
   <br>If set, `brew` commands evaluate all formulae and casks, executing their arbitrary code, by default without requiring --eval-all. Required to cache formula and cask descriptions.
@@ -2296,6 +2297,13 @@ example, run `export HOMEBREW_NO_INSECURE_REDIRECT=1` rather than just
 
 - `HOMEBREW_UPDATE_TO_TAG`
   <br>If set, always use the latest stable tag (even if developer commands have been run).
+
+- `HOMEBREW_VISUAL`
+  <br>Use this editor when editing a single formula, or several formulae in the same directory.
+
+    *Note:* `brew edit` will open all of Homebrew as discontinuous files and directories. Visual Studio Code can handle this correctly in project mode, but many editors will do strange things in this case.
+
+  *Default:* `$VISUAL`.
 
 - `HOMEBREW_VERBOSE`
   <br>If set, always assume `--verbose` when running commands.

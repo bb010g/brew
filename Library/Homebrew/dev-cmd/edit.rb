@@ -13,8 +13,9 @@ module Homebrew
   def edit_args
     Homebrew::CLI::Parser.new do
       description <<~EOS
-        Open a <formula> or <cask> in the editor set by `EDITOR` or `HOMEBREW_EDITOR`,
-        or open the Homebrew repository for editing if no formula is provided.
+        Open a <formula> or <cask> in the editor set by `HOMEBREW_VISUAL`, `VISUAL`,
+        `HOMEBREW_EDITOR`, or `EDITOR`, or open the Homebrew repository for editing if
+        no formula is provided.
       EOS
 
       switch "--formula", "--formulae",

@@ -193,6 +193,7 @@ class SoftwareSpec
   def depends_on(spec)
     dep = dependency_collector.add(spec)
     add_dep_option(dep) if dep
+    dep
   end
 
   def uses_from_macos(deps, bounds = {})

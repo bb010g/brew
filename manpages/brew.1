@@ -1751,7 +1751,7 @@ Dispatch bottle for Linux (using self\-hosted runner)\.
 Use Debian Wheezy container for building the bottle on Linux\.
 .
 .SS "\fBedit\fR [\fIoptions\fR] [\fIformula\fR|\fIcask\fR \.\.\.]"
-Open a \fIformula\fR or \fIcask\fR in the editor set by \fBEDITOR\fR or \fBHOMEBREW_EDITOR\fR, or open the Homebrew repository for editing if no formula is provided\.
+Open a \fIformula\fR or \fIcask\fR in the editor set by \fBHOMEBREW_VISUAL\fR, \fBVISUAL\fR, \fBHOMEBREW_EDITOR\fR, or \fBEDITOR\fR, or open the Homebrew repository for editing if no formula is provided\.
 .
 .TP
 \fB\-\-formula\fR
@@ -3110,7 +3110,7 @@ Use this editor when editing a single formula, or several formulae in the same d
 \fINote:\fR \fBbrew edit\fR will open all of Homebrew as discontinuous files and directories\. Visual Studio Code can handle this correctly in project mode, but many editors will do strange things in this case\.
 .
 .IP
-\fIDefault:\fR \fB$EDITOR\fR or \fB$VISUAL\fR\.
+\fIDefault:\fR \fB$EDITOR\fR\.
 .
 .TP
 \fBHOMEBREW_EVAL_ALL\fR
@@ -3390,6 +3390,18 @@ Use this path as the temporary directory for building packages\. Changing this m
 .
 .br
 If set, always use the latest stable tag (even if developer commands have been run)\.
+.
+.TP
+\fBHOMEBREW_VISUAL\fR
+.
+.br
+Use this editor when editing a single formula, or several formulae in the same directory\.
+.
+.IP
+\fINote:\fR \fBbrew edit\fR will open all of Homebrew as discontinuous files and directories\. Visual Studio Code can handle this correctly in project mode, but many editors will do strange things in this case\.
+.
+.IP
+\fIDefault:\fR \fB$VISUAL\fR\.
 .
 .TP
 \fBHOMEBREW_VERBOSE\fR

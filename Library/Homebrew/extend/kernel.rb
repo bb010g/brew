@@ -280,12 +280,19 @@ module Kernel
     end.compact.uniq
   end
 
-  def which_editor(silent: false)
-    editor = Homebrew::EnvConfig.editor
+  def which_editor(silent: false, visual: true)
+    editor = nil
+    editor ||= Homebrew::EnvConfig.visual if visual
+    editor ||= Homebrew::EnvConfig.editor
     return editor if editor
 
-    # Find VS Code, Sublime Text, Textmate, BBEdit, or vim
-    editor = %w[code subl mate bbedit vim].find do |candidate|
+    # Find VS Code, Sublime Text, Textmate, BBEdit, ...
+    fallback_editors = %w[code subl mate bbedit]
+    # [if visual:] ...Neovim, Vim, nano, ...
+    fallback_editors.concat(%[nvim vim nano]) if visual
+    # ...or ed.
+    fallback_editors.concat(%[ed])
+    editor = fallback_editors.find do |candidate|
       candidate if which(candidate, ORIGINAL_PATHS)
     end
     editor ||= "vim"
@@ -293,17 +300,18 @@ module Kernel
     unless silent
       opoo <<~EOS
         Using #{editor} because no editor was set in the environment.
-        This may change in the future, so we recommend setting EDITOR,
-        or HOMEBREW_EDITOR to your preferred text editor.
+        This may change in the future, so we recommend setting VISUAL,
+        HOMEBREW_VISUAL, EDITOR, or HOMEBREW_EDITOR to your preferred
+        text editor.
       EOS
     end
 
     editor
   end
 
-  def exec_editor(*args)
+  def exec_editor(*args, **options)
     puts "Editing #{args.join "\n"}"
-    with_homebrew_path { safe_system(*which_editor.shellsplit, *args) }
+    with_homebrew_path { safe_system(*which_editor(**options).shellsplit, *args) }
   end
 
   def exec_browser(*args)

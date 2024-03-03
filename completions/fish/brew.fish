@@ -667,7 +667,7 @@ __fish_brew_complete_arg 'dr' -l verbose -d 'Make some output more verbose'
 __fish_brew_complete_arg 'dr' -a '(__fish_brew_suggest_diagnostic_checks)'
 
 
-__fish_brew_complete_cmd 'edit' 'Open a formula or cask in the editor set by `EDITOR` or `HOMEBREW_EDITOR`, or open the Homebrew repository for editing if no formula is provided'
+__fish_brew_complete_cmd 'edit' 'Open a formula or cask in the editor set by `HOMEBREW_VISUAL`, `VISUAL`, `HOMEBREW_EDITOR`, or `EDITOR`, or open the Homebrew repository for editing if no formula is provided'
 __fish_brew_complete_arg 'edit' -l cask -d 'Treat all named arguments as casks'
 __fish_brew_complete_arg 'edit' -l debug -d 'Display any debugging information'
 __fish_brew_complete_arg 'edit' -l formula -d 'Treat all named arguments as formulae'

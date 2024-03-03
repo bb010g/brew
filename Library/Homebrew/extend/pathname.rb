@@ -87,37 +87,38 @@ class Pathname
     params(sources: T.any(
       Resource, Resource::Partial, String, Pathname,
       T::Array[T.any(String, Pathname)], T::Hash[T.any(String, Pathname), String]
-    )).void
+    ), keep: T.nilable(T::Boolean)).void
   }
-  def install(*sources)
+  def install(*sources, keep: nil)
     sources.each do |src|
       case src
       when Resource
-        src.stage(self)
+        src.stage(self, keep: keep)
       when Resource::Partial
-        src.resource.stage { install(*src.files) }
+        src.resource.stage { install(*src.files, keep: keep) }
       when Array
         if src.empty?
           opoo "Tried to install empty array to #{self}"
           break
         end
-        src.each { |s| install_p(s, File.basename(s)) }
+        src.each { |s| install_p(s, File.basename(s), keep: keep) }
       when Hash
         if src.empty?
           opoo "Tried to install empty hash to #{self}"
           break
         end
-        src.each { |s, new_basename| install_p(s, new_basename) }
+        src.each { |s, new_basename| install_p(s, new_basename, keep: keep) }
       else
-        install_p(src, File.basename(src))
+        install_p(src, File.basename(src), keep: keep)
       end
     end
   end
 
-  sig { params(src: T.any(String, Pathname), new_basename: String).void }
-  def install_p(src, new_basename)
+  sig { params(src: T.any(String, Pathname), new_basename: String, keep: T.nilable(T::Boolean)).void }
+  def install_p(src, new_basename, keep: nil)
     src = Pathname(src)
     raise Errno::ENOENT, src.to_s if !src.symlink? && !src.exist?
+    keep = false if nil?
 
     dst = join(new_basename)
     dst = yield(src, dst) if block_given?
@@ -125,6 +126,16 @@ class Pathname
 
     mkpath
 
+    if keep
+      FileUtils.cp src, dst
+    else
+      mv_p src, dst
+    end
+  end
+  private :install_p
+
+  sig { params(src: Pathname, dst: String).returns(T.nilable(Integer)) }
+  def mv_p(src, dst)
     # Use FileUtils.mv over File.rename to handle filesystem boundaries. If src
     # is a symlink, and its target is moved first, FileUtils.mv will fail:
     #   https://bugs.ruby-lang.org/issues/7707
@@ -135,7 +146,7 @@ class Pathname
       FileUtils.mv src, dst
     end
   end
-  private :install_p
+  private :mv_p
 
   # Creates symlinks to sources in this folder.
   sig {
